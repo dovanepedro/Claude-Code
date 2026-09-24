@@ -1,0 +1,12 @@
+[
+  {
+    "id": "demo-source-fictive",
+    "titre": "Source fictive de démonstration",
+    "producteur": "Aucun — contenu de démonstration",
+    "url": "https://example.invalid/demonstration",
+    "date_publication": "2026-01-01",
+    "date_consultation": "2026-09-24",
+    "type": "primaire",
+    "note": "Cette source n'existe pas. Elle sert uniquement à faire tourner le gabarit."
+  }
+]

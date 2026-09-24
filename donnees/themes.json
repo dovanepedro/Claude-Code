@@ -1,0 +1,26 @@
+[
+  {
+    "id": "energie",
+    "nom": "Énergie",
+    "statut": "brouillon",
+    "ordre": 1,
+    "nomenclature": {
+      "referentiel": "Missions du budget de l'État (loi de finances)",
+      "mission": "À RENSEIGNER — intitulé officiel exact de la mission",
+      "annee": null,
+      "source_id": null
+    }
+  },
+  {
+    "id": "_demonstration",
+    "nom": "Thème de démonstration",
+    "statut": "demonstration",
+    "ordre": 99,
+    "nomenclature": {
+      "referentiel": "Aucun",
+      "mission": null,
+      "annee": null,
+      "source_id": null
+    }
+  }
+]

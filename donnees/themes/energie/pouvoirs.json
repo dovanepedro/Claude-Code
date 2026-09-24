@@ -1,0 +1,7 @@
+[
+  { "niveau": "parlement", "libelle": "Parlement", "ce_qui_releve": "À RENSEIGNER", "source_id": null },
+  { "niveau": "gouvernement", "libelle": "Gouvernement", "ce_qui_releve": "À RENSEIGNER", "source_id": null },
+  { "niveau": "regulateur", "libelle": "Régulateur (CRE)", "ce_qui_releve": "À RENSEIGNER", "source_id": null },
+  { "niveau": "collectivites", "libelle": "Communes et intercommunalités", "ce_qui_releve": "À RENSEIGNER", "source_id": null },
+  { "niveau": "europe", "libelle": "Union européenne", "ce_qui_releve": "À RENSEIGNER", "source_id": null }
+]
