@@ -1,7 +1,170 @@
 {
   "titre": "Production d'électricité par région et par filière",
-  "geometrie": null,
-  "valeurs": [],
-  "source_id": null,
-  "note": "Géométrie des régions à récupérer depuis une source officielle. Attention : les jeux de données à la maille département proviendraient du réseau de distribution et excluraient donc le nucléaire — une carte construite dessus montrerait une France sans nucléaire. À confirmer avant usage."
+  "source_id": "odre-production-regionale-filiere",
+  "jeu_de_donnees": "prod-region-annuelle-filiere",
+  "annee": "2025",
+  "unite": "GWh",
+  "perimetre": "Les 13 régions de France métropolitaine, Corse comprise. Le jeu de données ne contient aucune région d'outre-mer : elles ne figurent donc pas sur cette carte, faute de chiffre publié par ce producteur.",
+  "geometrie": "regions",
+  "series": [
+    {
+      "champ": "production_nucleaire",
+      "libelle": "Production nucléaire (GWh)"
+    },
+    {
+      "champ": "production_thermique",
+      "libelle": "Production thermique (GWh)"
+    },
+    {
+      "champ": "production_hydraulique",
+      "libelle": "Production hydraulique (GWh)"
+    },
+    {
+      "champ": "production_eolienne",
+      "libelle": "Production éolienne (GWh)"
+    },
+    {
+      "champ": "production_solaire",
+      "libelle": "Production solaire (GWh)"
+    },
+    {
+      "champ": "production_bioenergies",
+      "libelle": "Production bioénergies (GWh)"
+    }
+  ],
+  "valeurs": [
+    {
+      "code_insee_region": "11",
+      "region": "Île-de-France",
+      "production_nucleaire": null,
+      "production_thermique": 963,
+      "production_hydraulique": 65,
+      "production_eolienne": 308,
+      "production_solaire": 453,
+      "production_bioenergies": 1113
+    },
+    {
+      "code_insee_region": "24",
+      "region": "Centre-Val de Loire",
+      "production_nucleaire": 69512,
+      "production_thermique": 153,
+      "production_hydraulique": 117,
+      "production_eolienne": 3262,
+      "production_solaire": 1871,
+      "production_bioenergies": 544
+    },
+    {
+      "code_insee_region": "27",
+      "region": "Bourgogne-Franche-Comté",
+      "production_nucleaire": null,
+      "production_thermique": 373,
+      "production_hydraulique": 810,
+      "production_eolienne": 2207,
+      "production_solaire": 1659,
+      "production_bioenergies": 422
+    },
+    {
+      "code_insee_region": "28",
+      "region": "Normandie",
+      "production_nucleaire": 69048,
+      "production_thermique": 1796,
+      "production_hydraulique": 112,
+      "production_eolienne": 3764,
+      "production_solaire": 573,
+      "production_bioenergies": 753
+    },
+    {
+      "code_insee_region": "32",
+      "region": "Hauts-de-France",
+      "production_nucleaire": 32323,
+      "production_thermique": 3512,
+      "production_hydraulique": 13,
+      "production_eolienne": 12519,
+      "production_solaire": 967,
+      "production_bioenergies": 930
+    },
+    {
+      "code_insee_region": "44",
+      "region": "Grand Est",
+      "production_nucleaire": 64875,
+      "production_thermique": 3981,
+      "production_hydraulique": 8158,
+      "production_eolienne": 9336,
+      "production_solaire": 2778,
+      "production_bioenergies": 1375
+    },
+    {
+      "code_insee_region": "52",
+      "region": "Pays de la Loire",
+      "production_nucleaire": null,
+      "production_thermique": 1294,
+      "production_hydraulique": 19,
+      "production_eolienne": 4870,
+      "production_solaire": 2267,
+      "production_bioenergies": 511
+    },
+    {
+      "code_insee_region": "53",
+      "region": "Bretagne",
+      "production_nucleaire": null,
+      "production_thermique": 1660,
+      "production_hydraulique": 591,
+      "production_eolienne": 4238,
+      "production_solaire": 1051,
+      "production_bioenergies": 460
+    },
+    {
+      "code_insee_region": "75",
+      "region": "Nouvelle-Aquitaine",
+      "production_nucleaire": 41390,
+      "production_thermique": 533,
+      "production_hydraulique": 3950,
+      "production_eolienne": 4113,
+      "production_solaire": 7485,
+      "production_bioenergies": 1505
+    },
+    {
+      "code_insee_region": "76",
+      "region": "Occitanie",
+      "production_nucleaire": 11252,
+      "production_thermique": 149,
+      "production_hydraulique": 11208,
+      "production_eolienne": 3343,
+      "production_solaire": 5960,
+      "production_bioenergies": 784
+    },
+    {
+      "code_insee_region": "84",
+      "region": "Auvergne-Rhône-Alpes",
+      "production_nucleaire": 84627,
+      "production_thermique": 1107,
+      "production_hydraulique": 27187,
+      "production_eolienne": 1397,
+      "production_solaire": 3933,
+      "production_bioenergies": 967
+    },
+    {
+      "code_insee_region": "93",
+      "region": "Provence-Alpes-Côte d'Azur",
+      "production_nucleaire": null,
+      "production_thermique": 2312,
+      "production_hydraulique": 9691,
+      "production_eolienne": 256,
+      "production_solaire": 3562,
+      "production_bioenergies": 1491
+    },
+    {
+      "code_insee_region": "94",
+      "region": "Corse",
+      "production_nucleaire": null,
+      "production_thermique": 825,
+      "production_hydraulique": 435,
+      "production_eolienne": 25,
+      "production_solaire": 302,
+      "production_bioenergies": 3
+    }
+  ],
+  "importe_le": "2026-09-24",
+  "note": "Une valeur vide est une valeur que le producteur ne publie pas : elle est affichée comme telle et jamais remplacée par zéro. Les libellés des filières et leur ordre sont ceux du producteur.",
+  "a_verifier": "Statut de la dernière année : la fiche parle de production « définitive » sans préciser si cela vaut déjà pour 2025. À confirmer dans le bilan électrique annuel de RTE avant publication."
 }

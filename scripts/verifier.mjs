@@ -89,7 +89,8 @@ for (const theme of themes) {
   const indicateurs = lire(join(dossier, "indicateurs.json")) ?? [];
   const positions = lire(join(dossier, "positions.json")) ?? [];
   const pouvoirs = lire(join(dossier, "pouvoirs.json")) ?? [];
-  chercherClesInterdites({ indicateurs, positions, pouvoirs }, ou);
+  const carte = existsSync(join(dossier, "carte.json")) ? lire(join(dossier, "carte.json")) : null;
+  chercherClesInterdites({ indicateurs, positions, pouvoirs, carte }, ou);
 
   if (publie && indicateurs.length !== 5)
     err(`${ou} : ${indicateurs.length} indicateur(s), or un thème publié en compte exactement 5.`);
@@ -128,8 +129,31 @@ for (const theme of themes) {
     if (!p.date_position) err(`${oup} : date de la position manquante.`);
   }
 
+  // La carte obéit aux mêmes règles que les indicateurs : pas un chiffre sans source.
+  if (carte?.valeurs?.length) {
+    const ouc = `${ou} / carte`;
+    if (!carte.source_id) err(`${ouc} : valeurs sans source. Interdit.`);
+    else if (!parId.has(carte.source_id)) err(`${ouc} : source « ${carte.source_id} » introuvable.`);
+    if (!carte.unite) err(`${ouc} : valeurs sans unité.`);
+    if (!carte.annee) err(`${ouc} : valeurs sans année de référence.`);
+    const contours = carte.geometrie ? lire(join(D, "geometries", `${carte.geometrie}.json`))?.regions : null;
+    if (!contours) err(`${ouc} : aucun contour pour dessiner les valeurs.`);
+    const series = (carte.series ?? []).map((s) => s.champ);
+    if (!series.length) err(`${ouc} : aucune série déclarée.`);
+    for (const v of carte.valeurs) {
+      if (contours && !contours[v.code_insee_region])
+        err(`${ouc} : aucun contour pour la région « ${v.code_insee_region} ».`);
+      // Une absence se déclare (null) ; un champ manquant ou une valeur texte est une erreur.
+      for (const s of series)
+        if (v[s] !== null && typeof v[s] !== "number")
+          err(`${ouc} / ${v.region} : « ${s} » n'est ni un nombre ni une absence déclarée (null).`);
+    }
+    if (publie && carte.a_verifier?.trim())
+      err(`${ouc} : thème publié alors qu'un point de la carte reste à vérifier.`);
+  }
+
   if (publie) {
-    for (const s of new Set([...indicateurs, ...positions].map((x) => x.source_id).filter(Boolean)))
+    for (const s of new Set([...indicateurs, ...positions, carte ?? {}].map((x) => x.source_id).filter(Boolean)))
       if (parId.get(s)?.type === "secondaire")
         err(`${ou} : publié en s'appuyant sur la source secondaire « ${s} ».`);
   }

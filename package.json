@@ -5,6 +5,7 @@
   "scripts": {
     "verifier": "node scripts/verifier.mjs",
     "construire": "node scripts/verifier.mjs && node scripts/construire.mjs",
+    "importer:odre": "node scripts/importer-odre.mjs",
     "servir": "node scripts/verifier.mjs && node scripts/construire.mjs && node --run-dev 2>/dev/null; npx --yes http-server dist -p 8080"
   }
 }

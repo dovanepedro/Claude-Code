@@ -1,16 +1,19 @@
 :root{
   --fond:#fbfaf8; --texte:#1c1b19; --doux:#5d594f; --trait:#e0ddd5;
   --carte:#ffffff; --accent:#1c4b3c; --alerte:#8a4b1f; --manque:#8a827a;
+  --carte-faible:#ebe8e1; --carte-fort:#1c1b19;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --fond:#141613; --texte:#eceae4; --doux:#a8a397; --trait:#2e322c;
     --carte:#1c1f1b; --accent:#7fc4a8; --alerte:#e0a06a; --manque:#8a867c;
+    --carte-faible:#2a2e28; --carte-fort:#eceae4;
   }
 }
 :root[data-theme="dark"]{
   --fond:#141613; --texte:#eceae4; --doux:#a8a397; --trait:#2e322c;
   --carte:#1c1f1b; --accent:#7fc4a8; --alerte:#e0a06a; --manque:#8a867c;
+    --carte-faible:#2a2e28; --carte-fort:#eceae4;
 }
 *{box-sizing:border-box}
 body{
@@ -57,11 +60,35 @@ blockquote{margin:0;font-style:italic}
 .source{font-size:.85rem}
 footer{border-top:1px solid var(--trait);padding-top:16px;padding-bottom:40px;
   font-size:.82rem;color:var(--doux)}
+/* Carte : une petite carte par série, rampe sans couleur de --carte-faible (0) à --carte-fort (maximum). */
+.carte-defs{position:absolute;width:0;height:0;overflow:hidden}
+.consigne,.note{font-size:.85rem;color:var(--doux)}
+.cartes{display:grid;grid-template-columns:repeat(3,1fr);gap:22px 16px;margin:14px 0 10px}
+.petite-carte{margin:0}
+.petite-carte figcaption{font-size:.85rem;line-height:1.3;margin-bottom:6px}
+.petite-carte svg{display:block;width:100%;height:auto}
+.petite-carte use{stroke:var(--fond);stroke-width:1px;stroke-linejoin:round}
+.petite-carte use:hover{opacity:.75}
+.petite-carte use.sans-valeur{fill:url(#hachures);stroke:var(--manque);stroke-width:.75px}
+.hachure{stroke:var(--manque);stroke-width:5}
+.echelle,.echelle-absence{display:flex;align-items:center;gap:6px;margin:6px 0 0;
+  font-size:.75rem;line-height:1.2;color:var(--doux);font-variant-numeric:tabular-nums}
+.degrade{flex:1;height:8px;border-radius:2px;
+  background:linear-gradient(to right,var(--carte-faible),var(--carte-fort));
+  background:linear-gradient(in oklab to right,var(--carte-faible),var(--carte-fort))}
+.pastille-hachures{width:16px;height:10px;border-radius:2px;
+  background:repeating-linear-gradient(45deg,var(--manque) 0 1.5px,transparent 1.5px 5px)}
+.tableau-carte thead th{text-transform:none;letter-spacing:0}
+.tableau-carte td{text-align:right;font-variant-numeric:tabular-nums}
 @media (max-width:560px){
   h1{font-size:1.55rem}
+  .cartes{grid-template-columns:repeat(2,1fr);gap:18px 12px}
+  .petite-carte figcaption{min-height:2.6em}
+  .tableau-carte td{text-align:left}
+  .tableau-carte td::before{content:attr(data-serie) " : ";color:var(--doux)}
   dl{grid-template-columns:1fr;gap:2px}
   dt{margin-top:6px}
-  table,thead,tbody,tr,th,td{display:block}
+  table,caption,thead,tbody,tr,th,td{display:block}
   thead{display:none}
   tr{border-bottom:1px solid var(--trait);padding:10px 0}
   th,td{border:0;padding:3px 0}

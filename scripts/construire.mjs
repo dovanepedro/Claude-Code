@@ -3,6 +3,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, copyFileSync } from "node:fs";
 import { join } from "node:path";
+import { rendreCarte } from "./carte.mjs";
 
 const RACINE = new URL("..", import.meta.url).pathname;
 const D = join(RACINE, "donnees");
@@ -97,8 +98,10 @@ function pageTheme(theme) {
 <tbody>${positions.map((p) => `<tr><th scope="row">${ech(p.organisation)}</th><td><blockquote>${ech(p.verbatim)}</blockquote></td><td>${ech(p.date_position)}</td><td>${citation(p.source_id)}</td></tr>`).join("")}</tbody>
 </table>` : `<p class="manque">Aucune position renseignée à ce jour. Une absence n'est jamais comblée par déduction.</p>`;
 
-  const blocCarte = carte?.geometrie
-    ? `<div id="carte"></div>`
+  const contours = carte?.geometrie && carte.valeurs?.length
+    ? JSON.parse(readFileSync(join(D, "geometries", `${carte.geometrie}.json`), "utf8")).regions : null;
+  const blocCarte = contours
+    ? rendreCarte({ carte, contours, ech, citation, dateSource: parId.get(carte.source_id)?.date_publication })
     : `<p class="manque">${ech(carte?.titre ?? "Carte")} — géométrie non encore récupérée. ${ech(carte?.note ?? "")}</p>`;
 
   return page({
