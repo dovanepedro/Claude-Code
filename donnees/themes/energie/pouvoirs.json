@@ -1,7 +1,44 @@
 [
-  { "niveau": "parlement", "libelle": "Parlement", "ce_qui_releve": "À RENSEIGNER", "source_id": null },
-  { "niveau": "gouvernement", "libelle": "Gouvernement", "ce_qui_releve": "À RENSEIGNER", "source_id": null },
-  { "niveau": "regulateur", "libelle": "Régulateur (CRE)", "ce_qui_releve": "À RENSEIGNER", "source_id": null },
-  { "niveau": "collectivites", "libelle": "Communes et intercommunalités", "ce_qui_releve": "À RENSEIGNER", "source_id": null },
-  { "niveau": "europe", "libelle": "Union européenne", "ce_qui_releve": "À RENSEIGNER", "source_id": null }
+  {
+    "niveau": "europe",
+    "libelle": "Union européenne",
+    "ce_qui_releve": "Fixe le cadre du marché intérieur de l'électricité : règles de concurrence entre fournisseurs, encadrement des aides d'État, normes applicables aux réseaux et aux échanges entre pays. Un dispositif national qui s'écarte de ce cadre peut être contesté devant le juge.",
+    "source_id": null,
+    "a_verifier": "Identifier le règlement européen en vigueur sur l'organisation du marché de l'électricité et sa date."
+  },
+  {
+    "niveau": "parlement",
+    "libelle": "Parlement",
+    "ce_qui_releve": "Vote la loi qui organise le secteur, et surtout la fiscalité applicable à l'électricité, dans la loi de finances. C'est par ce levier fiscal qu'ont transité les mesures prises pour contenir la hausse des prix au début des années 2020 : le Parlement ne fixe pas un prix, il modifie une taxe qui entre dedans.",
+    "source_id": null,
+    "a_verifier": "Citer les articles du code de l'énergie et de la dernière loi de finances concernés."
+  },
+  {
+    "niveau": "gouvernement",
+    "libelle": "Gouvernement",
+    "ce_qui_releve": "Arrête les tarifs réglementés de vente, sur proposition du régulateur. Prend les textes d'application, définit la programmation pluriannuelle de l'énergie et exerce la tutelle des opérateurs publics.",
+    "source_id": null,
+    "a_verifier": "Décrire exactement le mécanisme d'adoption des tarifs réglementés : proposition du régulateur, puis opposition ministérielle possible dans un délai, ou arrêté explicite. Ne pas l'écrire avant de l'avoir lu dans le code de l'énergie."
+  },
+  {
+    "niveau": "regulateur",
+    "libelle": "Commission de régulation de l'énergie",
+    "ce_qui_releve": "Autorité administrative indépendante. Calcule et propose les barèmes des tarifs réglementés de vente, et régule les tarifs d'acheminement sur les réseaux. Elle n'est ni élue ni membre du gouvernement.",
+    "source_id": null,
+    "a_verifier": "Confirmer le périmètre exact de ses compétences et la fréquence des mouvements tarifaires."
+  },
+  {
+    "niveau": "operateurs",
+    "libelle": "Fournisseurs d'électricité",
+    "ce_qui_releve": "Fixent librement le prix de leurs offres de marché, qui concernent aujourd'hui une large part des ménages. Le tarif réglementé n'est proposé que par le fournisseur historique et les entreprises locales de distribution.",
+    "source_id": null,
+    "a_verifier": "Établir la part des ménages au tarif réglementé et en offre de marché, avec sa source et sa date."
+  },
+  {
+    "niveau": "collectivites",
+    "libelle": "Communes et intercommunalités",
+    "ce_qui_releve": "Autorités organisatrices de la distribution d'électricité : elles sont propriétaires des réseaux de distribution et en concèdent l'exploitation. Elles délivrent par ailleurs les autorisations d'urbanisme dont dépendent les installations de production.",
+    "source_id": null,
+    "a_verifier": "Citer les dispositions du code général des collectivités territoriales correspondantes."
+  }
 ]
