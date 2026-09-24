@@ -1,0 +1,4 @@
+[
+  { "niveau": "parlement", "libelle": "Parlement", "ce_qui_releve": "Exemple de compétence, sans valeur informative.", "source_id": "demo-source-fictive" },
+  { "niveau": "europe", "libelle": "Union européenne", "ce_qui_releve": "Exemple de compétence, sans valeur informative.", "source_id": "demo-source-fictive" }
+]

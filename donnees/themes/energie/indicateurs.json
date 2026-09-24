@@ -1,0 +1,52 @@
+[
+  {
+    "id": "energie-prix-electricite-menages",
+    "nom": "Prix de l'électricité pour les ménages",
+    "definition_retenue": "À RENSEIGNER — plusieurs définitions officielles coexistent (tarif réglementé, prix moyen TTC au kWh). Nommer celle retenue et s'y tenir.",
+    "unite": null,
+    "valeur": null,
+    "periode": null,
+    "source_id": null,
+    "verifie": false
+  },
+  {
+    "id": "energie-mix-electrique",
+    "nom": "Part des filières dans le mix électrique français",
+    "definition_retenue": "À RENSEIGNER",
+    "unite": null,
+    "valeur": null,
+    "periode": null,
+    "source_id": null,
+    "verifie": false
+  },
+  {
+    "id": "energie-consommation-finale",
+    "nom": "Consommation finale d'énergie en France",
+    "definition_retenue": "À RENSEIGNER",
+    "unite": null,
+    "valeur": null,
+    "periode": null,
+    "source_id": null,
+    "verifie": false
+  },
+  {
+    "id": "energie-dependance",
+    "nom": "Dépendance énergétique de la France",
+    "definition_retenue": "À RENSEIGNER",
+    "unite": null,
+    "valeur": null,
+    "periode": null,
+    "source_id": null,
+    "verifie": false
+  },
+  {
+    "id": "energie-precarite",
+    "nom": "Ménages en difficulté pour payer leurs factures d'énergie",
+    "definition_retenue": "À RENSEIGNER",
+    "unite": null,
+    "valeur": null,
+    "periode": null,
+    "source_id": null,
+    "verifie": false
+  }
+]

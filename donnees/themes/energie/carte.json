@@ -1,0 +1,7 @@
+{
+  "titre": "Production d'électricité par région et par filière",
+  "geometrie": null,
+  "valeurs": [],
+  "source_id": null,
+  "note": "Géométrie des régions à récupérer depuis une source officielle. Attention : les jeux de données à la maille département proviendraient du réseau de distribution et excluraient donc le nucléaire — une carte construite dessus montrerait une France sans nucléaire. À confirmer avant usage."
+}

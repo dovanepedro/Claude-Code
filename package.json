@@ -1,0 +1,10 @@
+{
+  "name": "repere",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "verifier": "node scripts/verifier.mjs",
+    "construire": "node scripts/verifier.mjs && node scripts/construire.mjs",
+    "servir": "node scripts/verifier.mjs && node scripts/construire.mjs && node --run-dev 2>/dev/null; npx --yes http-server dist -p 8080"
+  }
+}

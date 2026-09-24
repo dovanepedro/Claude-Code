@@ -1,0 +1,22 @@
+[
+  {
+    "id": "demo-a",
+    "nom": "Indicateur de démonstration A",
+    "definition_retenue": "Valeur manifestement fictive, destinée à faire tourner le gabarit.",
+    "unite": "unités fictives",
+    "valeur": 999,
+    "periode": "année fictive",
+    "source_id": "demo-source-fictive",
+    "verifie": false
+  },
+  {
+    "id": "demo-b",
+    "nom": "Indicateur de démonstration B",
+    "definition_retenue": "Valeur manifestement fictive, destinée à faire tourner le gabarit.",
+    "unite": "unités fictives",
+    "valeur": 111,
+    "periode": "année fictive",
+    "source_id": "demo-source-fictive",
+    "verifie": false
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "organisation": "Organisation fictive B",
+    "verbatim": "Citation de démonstration, attribuée à une organisation qui n'existe pas.",
+    "date_position": "2026-01-01",
+    "source_id": "demo-source-fictive",
+    "levier": "offre"
+  },
+  {
+    "organisation": "Organisation fictive A",
+    "verbatim": "Autre citation de démonstration, attribuée à une organisation qui n'existe pas.",
+    "date_position": "2026-01-01",
+    "source_id": "demo-source-fictive",
+    "levier": "prix"
+  }
+]
