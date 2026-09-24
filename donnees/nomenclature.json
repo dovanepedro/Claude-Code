@@ -1,0 +1,23 @@
+{
+  "referentiel": "CFAP — Classification des fonctions des administrations publiques",
+  "origine": "Nomenclature internationale COFOG (Nations unies), reprise par Eurostat et par l'INSEE.",
+  "millesime": null,
+  "source_id": null,
+  "note": "REPÈRE ne choisit pas ses thèmes : il reprend ce découpage. Les intitulés ci-dessous proviennent de résultats de recherche et NE SONT PAS ENCORE CONFIRMÉS à la définition publiée par l'INSEE. Tant que libelle_confirme vaut false, aucun thème rattaché ne peut être publié.",
+  "divisions": [
+    { "code": "01", "libelle": "Services généraux des administrations publiques", "libelle_confirme": false, "variante_connue": "Services publics généraux (formulation Eurostat)" },
+    { "code": "02", "libelle": "Défense", "libelle_confirme": false },
+    { "code": "03", "libelle": "Ordre et sécurité publics", "libelle_confirme": false },
+    { "code": "04", "libelle": "Affaires économiques", "libelle_confirme": false },
+    { "code": "05", "libelle": "Protection de l'environnement", "libelle_confirme": false },
+    { "code": "06", "libelle": "Logements et équipements collectifs", "libelle_confirme": false, "variante_connue": "Logement et équipements collectifs (singulier)" },
+    { "code": "07", "libelle": "Santé", "libelle_confirme": false },
+    { "code": "08", "libelle": "Loisirs, culture et culte", "libelle_confirme": false },
+    { "code": "09", "libelle": "Enseignement", "libelle_confirme": false },
+    { "code": "10", "libelle": "Protection sociale", "libelle_confirme": false }
+  ],
+  "absences_a_assumer": [
+    "L'immigration n'est pas une fonction de cette nomenclature. Elle est répartie entre protection sociale, ordre et sécurité, et services généraux. REPÈRE ne la retire pas : le découpage international ne la sépare pas. À expliquer sur la page de méthode plutôt qu'à dissimuler.",
+    "L'énergie et les transports ne sont pas des divisions : ce sont des sous-classes de « Affaires économiques ». Un thème peut donc être rattaché à une sous-classe officielle."
+  ]
+}

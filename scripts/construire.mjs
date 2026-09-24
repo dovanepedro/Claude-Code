@@ -13,7 +13,10 @@ const ech = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 
 const sources = lire(join(D, "sources.json"));
 const parId = new Map(sources.map((s) => [s.id, s]));
+const nomenclature = existsSync(join(D, "nomenclature.json")) ? JSON.parse(readFileSync(join(D, "nomenclature.json"), "utf8")) : { divisions: [] };
+const divisions = new Map((nomenclature.divisions ?? []).map((d) => [d.code, d]));
 const themes = lire(join(D, "themes.json")).sort((a, b) => a.ordre - b.ordre);
+const ouverts = themes.filter((t) => t.statut !== "a_venir");
 const corrections = lire(join(D, "corrections.json"));
 
 function citation(id) {
@@ -45,6 +48,14 @@ Chaque chiffre affiché porte son producteur, sa définition et sa date.</p>
 </footer>
 </body>
 </html>`;
+}
+
+function rattachement(theme) {
+  const div = divisions.get(theme.nomenclature?.division);
+  if (!div) return "";
+  const sous = theme.nomenclature.sous_classe
+    ? ` — sous-classe ${ech(theme.nomenclature.sous_classe)} « ${ech(theme.nomenclature.libelle_sous_classe)} »` : "";
+  return `<p class="rattachement">Division ${ech(div.code)} « ${ech(div.libelle)} »${sous} de la ${ech(nomenclature.referentiel)}. REPÈRE ne choisit pas ses thèmes : il reprend ce découpage.</p>`;
 }
 
 function pageTheme(theme) {
@@ -94,7 +105,7 @@ function pageTheme(theme) {
     titre: theme.nom, actuel: "",
     corps: `${banniere}
 <h1>${ech(theme.nom)}</h1>
-<p class="rattachement">Thème repris de : ${ech(theme.nomenclature?.referentiel ?? "—")}${theme.nomenclature?.mission ? ` — « ${ech(theme.nomenclature.mission)} »` : ""}. REPÈRE ne choisit pas ses thèmes.</p>
+${rattachement(theme)}
 <section><h2>L'état des lieux</h2>${blocIndic}</section>
 <section><h2>Sur le territoire</h2>${blocCarte}</section>
 <section><h2>Qui décide</h2>${blocPouvoirs}</section>
@@ -105,7 +116,12 @@ function pageTheme(theme) {
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(DIST, { recursive: true });
 
-const liste = themes.map((t) => `<li><a href="theme-${ech(t.id)}.html">${ech(t.nom)}</a> <span class="statut">${ech(t.statut)}</span></li>`).join("");
+const liste = themes.map((t) => t.statut === "a_venir"
+  ? `<li><span class="avenir">${ech(t.nom)}</span> <span class="statut">à venir</span></li>`
+  : `<li><a href="theme-${ech(t.id)}.html">${ech(t.nom)}</a> <span class="statut">${ech(t.statut)}</span></li>`).join("");
+const listeDivisions = (nomenclature.divisions ?? [])
+  .map((d) => `<li>${ech(d.code)} — ${ech(d.libelle)}${d.libelle_confirme ? "" : ` <span class="drapeau">intitulé à confirmer</span>`}</li>`).join("");
+const absences = (nomenclature.absences_a_assumer ?? []).map((a) => `<li>${ech(a)}</li>`).join("");
 writeFileSync(join(DIST, "index.html"), page({
   titre: "Accueil", actuel: "index",
   corps: `<h1>Comprendre qui décide quoi</h1>
@@ -113,7 +129,7 @@ writeFileSync(join(DIST, "index.html"), page({
 <h2>Thèmes</h2><ul class="themes">${liste}</ul>`,
 }));
 
-for (const t of themes) writeFileSync(join(DIST, `theme-${t.id}.html`), pageTheme(t));
+for (const t of ouverts) writeFileSync(join(DIST, `theme-${t.id}.html`), pageTheme(t));
 
 writeFileSync(join(DIST, "corrections.html"), page({
   titre: "Corrections", actuel: "corrections",
@@ -138,8 +154,11 @@ writeFileSync(join(DIST, "methode.html"), page({
 <h2>Les positions</h2>
 <p>Citations exactes, avec leur source et leur date. Ordre alphabétique. Une absence de position est affichée comme telle, jamais déduite.</p>
 <h2>Les thèmes</h2>
-<p>Ils sont repris d'une nomenclature officielle publiée, pas choisis par REPÈRE.</p>`,
+<p>Ils sont repris d'une nomenclature officielle publiée, pas choisis par REPÈRE : la ${ech(nomenclature.referentiel)}, issue de la ${ech(nomenclature.origine)}</p>
+<ul>${listeDivisions}</ul>
+<h3>Ce que ce découpage ne sépare pas</h3>
+<ul>${absences}</ul>`,
 }));
 
 copyFileSync(join(RACINE, "site", "style.css"), join(DIST, "style.css"));
-console.log(`✓ Site construit — ${themes.length + 3} page(s) dans dist/`);
+console.log(`✓ Site construit — ${ouverts.length + 3} page(s), ${themes.length - ouverts.length} thème(s) annoncé(s).`);

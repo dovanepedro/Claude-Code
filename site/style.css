@@ -66,3 +66,5 @@ footer{border-top:1px solid var(--trait);padding-top:16px;padding-bottom:40px;
   tr{border-bottom:1px solid var(--trait);padding:10px 0}
   th,td{border:0;padding:3px 0}
 }
+
+.avenir{color:var(--doux)}

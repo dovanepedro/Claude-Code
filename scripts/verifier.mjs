@@ -51,9 +51,17 @@ for (const [i, s] of sources.entries()) {
   if (s.id) parId.set(s.id, s);
 }
 
+// --- Nomenclature des thèmes ---
+// REPÈRE ne choisit pas ses thèmes. Ils sont rattachés à une nomenclature publiée,
+// et un thème ne peut pas être publié tant que l'intitulé repris n'a pas été
+// confirmé à la source officielle.
+const nomenclature = lire(join(D, "nomenclature.json")) ?? {};
+const divisions = new Map((nomenclature.divisions ?? []).map((d) => [d.code, d]));
+if (!divisions.size) err("nomenclature.json : aucune division. Les thèmes n'ont plus de rattachement.");
+
 // --- Thèmes ---
 const themes = lire(join(D, "themes.json")) ?? [];
-const STATUTS = ["brouillon", "a_relire", "publie", "demonstration"];
+const STATUTS = ["a_venir", "brouillon", "a_relire", "publie", "demonstration"];
 
 for (const theme of themes) {
   const dossier = join(D, "themes", theme.id);
@@ -63,8 +71,20 @@ for (const theme of themes) {
   const publie = theme.statut === "publie";
   const demo = theme.statut === "demonstration";
 
-  if (publie && !theme.nomenclature?.mission)
-    err(`${ou} : publié sans rattachement à la nomenclature officielle.`);
+  if (!demo) {
+    const code = theme.nomenclature?.division;
+    if (!code) err(`${ou} : aucun rattachement à une division de la nomenclature.`);
+    else if (!divisions.has(code)) err(`${ou} : division « ${code} » absente de nomenclature.json.`);
+    else if (publie) {
+      const div = divisions.get(code);
+      if (!div.libelle_confirme)
+        err(`${ou} : publié alors que l'intitulé de la division « ${code} » n'est pas confirmé à la source officielle.`);
+      if (!nomenclature.source_id) err(`${ou} : publié alors que la nomenclature elle-même n'a pas de source.`);
+      if (theme.nomenclature.sous_classe && !theme.nomenclature.libelle_confirme)
+        err(`${ou} : publié alors que l'intitulé de la sous-classe « ${theme.nomenclature.sous_classe} » n'est pas confirmé.`);
+    }
+  }
+  if (theme.statut === "a_venir") continue; // thème annoncé, pas encore ouvert
 
   const indicateurs = lire(join(dossier, "indicateurs.json")) ?? [];
   const positions = lire(join(dossier, "positions.json")) ?? [];
