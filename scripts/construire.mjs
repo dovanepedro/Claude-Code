@@ -123,7 +123,7 @@ const liste = themes.map((t) => t.statut === "a_venir"
   ? `<li><span class="avenir">${ech(t.nom)}</span> <span class="statut">à venir</span></li>`
   : `<li><a href="theme-${ech(t.id)}.html">${ech(t.nom)}</a> <span class="statut">${ech(t.statut)}</span></li>`).join("");
 const listeDivisions = (nomenclature.divisions ?? [])
-  .map((d) => `<li>${ech(d.code)} — ${ech(d.libelle)}${d.libelle_confirme ? "" : ` <span class="drapeau">intitulé à confirmer</span>`}</li>`).join("");
+  .map((d) => `<li>${ech(d.code)} — ${ech(d.libelle)}${d.libelle_confirme ? "" : ` <span class="drapeau">intitulé à confirmer</span>`}${d.variante_connue ? `<br><span class="variante">Autre formulation publiée : ${ech(d.variante_connue)}</span>` : ""}</li>`).join("");
 const absences = (nomenclature.absences_a_assumer ?? []).map((a) => `<li>${ech(a)}</li>`).join("");
 writeFileSync(join(DIST, "index.html"), page({
   titre: "Accueil", actuel: "index",

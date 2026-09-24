@@ -4,7 +4,7 @@
     "nom": "Énergie",
     "statut": "brouillon",
     "ordre": 1,
-    "nomenclature": { "division": "04", "sous_classe": "04.3", "libelle_sous_classe": "Combustibles et énergie", "libelle_confirme": false }
+    "nomenclature": { "division": "04", "sous_classe": "04.3", "libelle_sous_classe": "Combustibles et énergie", "libelle_confirme": true }
   },
   { "id": "sante", "nom": "Santé", "statut": "a_venir", "ordre": 2, "nomenclature": { "division": "07" } },
   { "id": "enseignement", "nom": "Enseignement", "statut": "a_venir", "ordre": 3, "nomenclature": { "division": "09" } },
@@ -12,7 +12,7 @@
   { "id": "logement", "nom": "Logement et équipements collectifs", "statut": "a_venir", "ordre": 5, "nomenclature": { "division": "06" } },
   { "id": "ordre-securite", "nom": "Ordre et sécurité publics", "statut": "a_venir", "ordre": 6, "nomenclature": { "division": "03" } },
   { "id": "environnement", "nom": "Protection de l'environnement", "statut": "a_venir", "ordre": 7, "nomenclature": { "division": "05" } },
-  { "id": "transports", "nom": "Transports", "statut": "a_venir", "ordre": 8, "nomenclature": { "division": "04", "sous_classe": "04.5", "libelle_sous_classe": "Transports", "libelle_confirme": false } },
+  { "id": "transports", "nom": "Transports", "statut": "a_venir", "ordre": 8, "nomenclature": { "division": "04", "sous_classe": "04.5", "libelle_sous_classe": "Transports", "libelle_confirme": true } },
   { "id": "defense", "nom": "Défense", "statut": "a_venir", "ordre": 9, "nomenclature": { "division": "02" } },
   { "id": "loisirs-culture", "nom": "Loisirs, culture et culte", "statut": "a_venir", "ordre": 10, "nomenclature": { "division": "08" } },
   { "id": "services-generaux", "nom": "Services généraux des administrations publiques", "statut": "a_venir", "ordre": 11, "nomenclature": { "division": "01" } },

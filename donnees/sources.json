@@ -19,5 +19,15 @@
     "type": "primaire",
     "licence": "Licence Ouverte v2.0 (Etalab) — réutilisation libre, mention du producteur et de la date de mise à jour obligatoire.",
     "note": "La fiche se contredit sur trois points, relevés tels quels : le titre annonce 2008 à 2025 mais le champ « profondeur d'historique » indique 2008 - 2024 ; la description parle de TWh alors que chaque champ est libellé en GWh ; le champ « modified » (7 mai 2025) est antérieur aux données 2025 que le jeu contient. date_publication reprend donc le champ « data_processed » (17 février 2026). La description signale aussi un recalcul de l'autoconsommation photovoltaïque qui a relevé la production solaire de 2022 à 2024."
+  },
+  {
+    "id": "insee-cn2024-tableau-3301",
+    "titre": "3.301 – Dépenses des administrations publiques (S13) ventilées par fonction — Les comptes de la Nation en 2024",
+    "producteur": "INSEE",
+    "url": "https://www.insee.fr/fr/statistiques/8574707?sommaire=8574832",
+    "date_publication": "2026-03-27",
+    "date_consultation": "2026-09-24",
+    "type": "primaire",
+    "note": "Fichier T_3301.xlsx, créé le 28/11/2025 selon ses métadonnées ; la page qui le diffuse porte la date du 27/03/2026. Les tableaux par fonction du millésime 2025 sont annoncés pour décembre 2026 : relire les intitulés à leur sortie."
   }
 ]
