@@ -14,16 +14,19 @@ propre.
 **[CADRAGE.md](CADRAGE.md) fait autorité sur le périmètre du produit** et remplace explicitement
 tous les documents antérieurs (rapport NOVA, dossier pilote Logement, carnet de chantier). Le lire
 avant toute décision de contenu. [PISTES.md](PISTES.md) liste les sources restant à ouvrir et les
-pièges connus ; il ne contient volontairement aucun chiffre. [ARBITRAGES.md](ARBITRAGES.md) liste
-les décisions éditoriales qui attendent l'auteur, avec les options lues à la source : ne pas les
-trancher à sa place.
+pièges connus ; il ne contient volontairement aucun chiffre. [ARBITRAGES.md](ARBITRAGES.md) est le
+journal des décisions éditoriales : ce que l'auteur a tranché, et ce qui l'attend encore. Ne jamais
+trancher à sa place ; une décision nouvelle s'y inscrit avant d'être appliquée.
 
 ## Commandes
 
 ```sh
 npm run verifier    # contrôle les données, sort en code 1 si une règle est violée
 npm run construire  # vérifie PUIS génère le site statique dans dist/
-npm run importer:odre  # réimporte la carte énergie depuis ODRÉ (réseau requis)
+npm run importer    # relance tous les imports (réseau requis) ; un par source :
+npm run importer:odre      # carte énergie (ODRÉ)
+npm run importer:sdes      # consommation finale, indépendance, production par filière (SDES)
+npm run importer:eurostat  # prix de l'électricité pour les ménages (Eurostat)
 ```
 
 Aucune dépendance, aucun `npm install`. Node 18+ ; scripts `.mjs` natifs.
@@ -54,6 +57,8 @@ scripts/
   construire.mjs      génère dist/ (index, une page par thème ouvert, methode, corrections)
   carte.mjs           rendu SVG des cartes (Lambert-93, une petite carte par série, sans JS)
   importer-*.mjs      un script par source importée ; seul chemin d'entrée d'un chiffre
+  importer-commun.mjs ce qu'un import possède dans un indicateur, et ce qu'il ne touche jamais
+  lire-xlsx.mjs       lecture des classeurs Excel des producteurs, sans dépendance
 site/style.css        recopié tel quel dans dist/
 ```
 
@@ -77,6 +82,8 @@ Il refuse notamment :
   de nomenclature n'est pas confirmé à la source officielle ;
 - une carte dont les valeurs n'ont pas de source, d'unité, d'année ou de contour, dont une valeur
   n'est ni un nombre ni `null` déclaré, ou qui garde un `a_verifier` sur un thème `publie` ;
+- une `decomposition` sans le total publié par le producteur en `valeur`, ou dont une part n'a pas
+  de libellé ou n'est ni un nombre ni `null` : REPÈRE n'additionne jamais ;
 - **toute clé d'appréciation**, cherchée récursivement dans toutes les données :
   `score`, `notation`, `credibilite`, `faisabilite`, `affinite`, `recommandation`,
   `classement`, `rang`, `match`, `compatibilite`. Ne pas introduire de champ voisin par
@@ -116,10 +123,19 @@ la page de méthode plutôt que dissimulées.
 - Un fait non encore lu à la source se consigne dans un champ `a_verifier` ou une `note`, à côté
   d'un `source_id: null`. C'est le motif utilisé partout dans `energie/` : écrire ce qui est
   structurellement durable, marquer le reste comme à lire.
-- **Un chiffre entre par un script d'import, jamais à la main.** Modèle : `importer-odre.mjs`.
-  Il recopie sans calcul ni conversion, garde `null` pour une absence, s'arrête si le producteur
-  change ses champs ou ses unités, ne possède que les champs de données (titre, note et
-  `a_verifier` rédigés à la main sont conservés), et un réimport doit être identique au bit près.
+- **Un chiffre entre par un script d'import, jamais à la main.** Modèles : `importer-odre.mjs`
+  pour une carte, `importer-sdes.mjs` pour des indicateurs. Un import recopie sans calcul ni
+  conversion, garde `null` pour une absence, contrôle ce que le producteur dit de chaque série
+  (libellé, unité, périmètre) et s'arrête au moindre changement, ne possède que les champs de
+  données (nom, définition retenue, `decimales`, `verifie`, notes restent rédigés à la main), et
+  un réimport le même jour doit être identique au bit près.
+- Les trois règles adoptées par l'auteur le 25/09/2026 (détail dans ARBITRAGES.md) : REPÈRE ne
+  dérive aucun chiffre (ni somme, ni différence, ni ratio) ; quand un producteur publie plusieurs
+  variantes, on reprend celle qu'il désigne comme sa référence ; une unité incomplète vaut une
+  unité absente. Arrondir pour afficher n'est pas calculer : la valeur complète reste dans le
+  fichier de données.
+- `verifie: true` est posé par l'auteur, après avoir ouvert la source et retrouvé le chiffre :
+  c'est la vérification que le cadrage ne délègue pas. Un import ne le pose jamais.
 - Les résumés de moteurs de recherche ne sont jamais une source : un chiffre se lit dans le
   document du producteur. Le 24/09/2026, un tel résumé a nommé « consommation d'énergie » ce qui
   n'en était qu'une des définitions.
@@ -127,21 +143,25 @@ la page de méthode plutôt que dissimulées.
 ## État actuel
 
 Premier jalon : le thème **énergie** complet et en ligne, **échéance 22 octobre 2026**. Il est en
-`brouillon`. Au 24/09/2026 :
+`brouillon`. Au 25/09/2026 :
 
-- **Carte : faite.** Production d'électricité 2025 par région et par filière, importée d'ODRÉ
-  (Licence Ouverte), contrôlée par le vérificateur, rendue en six petites cartes et un tableau.
-  Un point reste ouvert : 2025 est vraisemblablement consolidée, pas définitive.
-- **Nomenclature : confirmée** à l'INSEE ; elle ne bloque plus la publication.
-- **Indicateurs : vides**, en attente des arbitrages de l'auteur (ARBITRAGES.md). Chaque indicateur
-  retenu recevra son script d'import.
-- **`pouvoirs.json` : rédigé, non sourcé.** Les articles à lire sont dans PISTES.md. Attention :
-  le vérificateur ne contrôle pas encore les sources des pouvoirs ; ajouter la règle en les
-  sourçant.
+- **Carte : faite**, données 2025 consolidées affichées comme telles (décision 0).
+- **Indicateurs : quatre sur cinq importés** (prix, production par filière, consommation finale,
+  indépendance), marqués non vérifiés en attendant le contrôle de l'auteur.
+- **Précarité : bloquée** sur une question de méthode posée à l'auteur (ARBITRAGES.md) : le seul
+  document source est un PDF du ministère, sans fichier de données.
+- **Nomenclature confirmée** ; les pages de thème prennent l'intitulé officiel pour titre.
+- **`pouvoirs.json` : rédigé, non sourcé.** Articles à lire dans PISTES.md. Le vérificateur ne
+  contrôle pas encore ses sources : ajouter la règle en les sourçant.
 - Positions, précédents et évaluations : pas commencés.
 
-Ce qui bloque encore la publication, d'après le vérificateur : les cinq indicateurs et le point à
-vérifier de la carte.
+Ce qui bloque la publication, d'après le vérificateur : la vérification des quatre indicateurs par
+l'auteur et le taux de précarité.
+
+Mises à jour attendues : données 2025 définitives de la carte au second semestre 2026 (réimport,
+révisions au journal des corrections) ; prix Eurostat chaque semestre ; bilan définitif 2025 du
+SDES l'an prochain (changer l'édition dans `importer-sdes.mjs`) ; tableaux INSEE par fonction du
+millésime 2025 en décembre 2026 (relire les intitulés de la nomenclature).
 
 Réseau depuis cet environnement : ouvert, sauf Légifrance (403), onpe.org et ademe.fr
-(anti-robots), l'API d'Eurostat (en maintenance le 24/09) et data.gouv.fr (coupures).
+(anti-robots) et data.gouv.fr (coupures). L'API d'Eurostat, en maintenance le 24/09, répond.

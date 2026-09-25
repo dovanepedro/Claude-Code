@@ -1,9 +1,9 @@
 # Pistes de recherche
 
-> **Statut au 24/09/2026 : l'accès réseau est ouvert**, et les premières sources officielles ont
-> été lues. Restent inaccessibles depuis l'environnement de travail : Légifrance (refus 403),
-> onpe.org et ademe.fr (vérification anti-robots), l'API d'Eurostat (en maintenance ce jour-là),
-> data.gouv.fr (connexions coupées par intermittence).
+> **Statut au 25/09/2026 : l'accès réseau est ouvert**, et les sources du thème énergie ont été
+> lues. Restent inaccessibles depuis l'environnement de travail : Légifrance (refus 403),
+> onpe.org et ademe.fr (vérification anti-robots), data.gouv.fr (connexions coupées par
+> intermittence). L'API d'Eurostat, en maintenance le 24/09, répond depuis le 25/09.
 >
 > **Aucun chiffre n'est reporté ici, volontairement.** Ce fichier ne contient que des adresses
 > à ouvrir et des points à trancher. Les chiffres lus à la source, datés, sont dans
@@ -17,7 +17,10 @@
 | Jeu « production régionale annuelle par filière » | Importé : `npm run importer:odre`. Réseaux de transport et de distribution, donc nucléaire compris ; contours des régions fournis. |
 | Motif d'export de l'API Opendatasoft v2.1 | `/api/explore/v2.1/catalog/datasets/<slug>/exports/json` |
 | Statut définitif ou consolidé d'une année | Fiche `eco2mix-national-cons-def` : définitive au second semestre de l'année suivante. |
-| Prix de l'électricité, série européenne | Repris par le SDES dans « Conjoncture mensuelle de l'énergie » (API DiDo), avec une unité incomplète. API Eurostat à relire. |
+| Prix de l'électricité, série européenne | Importé depuis l'API d'Eurostat (`nrg_pc_204`), en €/kWh. La série du SDES en est la même, exprimée pour 100 kWh sans le dire. |
+| Consommation, indépendance, production par filière | Importées des séries longues du bilan du SDES (Excel, codes de série stables). |
+| Grandeur visée par l'objectif légal de consommation | Fiche INSEE de l'indicateur 7.i2 des objectifs de développement durable : cite l'article L. 100-4 et suit l'objectif en données corrigées du climat. |
+| Taux de précarité énergétique | Source primaire : CGDD, *La précarité énergétique en 2023* (juin 2025), PDF sur ecologie.gouv.fr. Aucun fichier de données trouvé. |
 | Dispositif qui succède à l'ARENH | La délibération CRE n° 2026-147 confirme la fin de l'ARENH au 31/12/2025, sans décrire ce qui lui succède. **À lire.** |
 | Coût des mesures contre la hausse des prix | Pas encore ouvert : Cour des comptes et CRE. |
 

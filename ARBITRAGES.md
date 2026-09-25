@@ -32,6 +32,32 @@ données associé n'a été trouvé. Le cadrage veut des chiffres qui arrivent �
 données, jamais rédigés » : un relevé à la main enfreindrait la règle, et l'assouplir revient à
 l'auteur.
 
+| Option | Ce que cela implique |
+|---|---|
+| **A. Relevé tracé** (recommandé) | Le chiffre est accompagné de la phrase exacte du document qui le contient, de sa page et de son adresse ; le vérificateur exige que la valeur figure dans cette phrase, et la page signale un chiffre relevé dans un document plutôt qu'importé. C'est le mécanisme déjà appliqué aux positions des partis. Exception réservée aux sources publiées seulement en document. |
+| **B. Extraction automatique du PDF** | Un script lit le PDF et y cherche la phrase. Il faut une bibliothèque de lecture de PDF (une dépendance) ou environ deux cents lignes de code fragiles, qui casseront au premier changement de mise en page. |
+| **C. Changer d'indicateur** | Eurostat publie par API la part des ménages qui ne peuvent pas chauffer convenablement leur logement. Importable, mais c'est un autre concept (déclaratif), et cela revient sur la décision 5. |
+| **D. Attendre un fichier de données** | Le thème ne peut pas être publié sans ses cinq indicateurs : le jalon du 22 octobre glisse. |
+
+**Recommandation : A.** Elle garde ce que la règle protège — aucun nombre ne sort d'un texte
+généré, et chacun se conteste en une minute, source ouverte à la bonne page — sans ajouter de
+code fragile.
+
+### À vérifier par l'auteur
+
+Les quatre valeurs importées restent marquées « non vérifiées » : c'est l'acte que le cadrage ne
+délègue pas. Pour chacune, ouvrir la source et retrouver le chiffre affiché.
+
+| Indicateur | Affiché | Où le retrouver |
+|---|---|---|
+| Prix de l'électricité | 0,2561 €/kWh, 2ᵉ semestre 2025 | Eurostat, jeu `nrg_pc_204`, France, tranche DC, toutes taxes |
+| Production par filière | 551,1 TWh, dont nucléaire 373,0 | SDES, séries longues du bilan 2025 provisoire, lignes `EL019TMR` à `EL029TMR`, colonne 2025 |
+| Consommation finale | 1 533 TWh | Même fichier, ligne `SY020TFC`, colonne 2025 |
+| Indépendance énergétique | 62,7 % | Même fichier, ligne `SY027%FR` ; le même chiffre figure dans la synthèse du bilan |
+
+Une fois vérifiées, passer `verifie` à `true` dans `donnees/themes/energie/indicateurs.json`, ou
+le demander.
+
 ## Les trois règles
 
 Elles tranchent d'avance la moitié des cas ci-dessous, et remplacent un jugement par une règle
