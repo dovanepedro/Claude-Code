@@ -29,5 +29,25 @@
     "date_consultation": "2026-09-24",
     "type": "primaire",
     "note": "Fichier T_3301.xlsx, créé le 28/11/2025 selon ses métadonnées ; la page qui le diffuse porte la date du 27/03/2026. Les tableaux par fonction du millésime 2025 sont annoncés pour décembre 2026 : relire les intitulés à leur sortie."
+  },
+  {
+    "id": "sdes-bilan-2025-provisoire",
+    "titre": "Séries longues du bilan énergétique provisoire de la France en 2025",
+    "producteur": "SDES, ministère de la Transition écologique",
+    "url": "https://www.statistiques.developpement-durable.gouv.fr/bilan-energetique-de-la-france-en-2025-donnees-provisoires",
+    "date_publication": "2026-04-22",
+    "date_consultation": "2026-09-25",
+    "type": "primaire",
+    "note": "Données provisoires. Le bilan définitif de 2025 paraîtra l'an prochain ; celui de 2024 est paru le 04/03/2026. Périmètres selon le producteur : « France » couvre la métropole et les cinq DROM depuis 2011, « Métropole » la France métropolitaine."
+  },
+  {
+    "id": "eurostat-nrg-pc-204",
+    "titre": "Prix de l'électricité pour client résidentiel - données semestrielles (à partir de 2007)",
+    "producteur": "Eurostat",
+    "url": "https://ec.europa.eu/eurostat/databrowser/view/nrg_pc_204/default/table?lang=fr",
+    "date_publication": "2026-09-24",
+    "date_consultation": "2026-09-25",
+    "type": "primaire",
+    "note": "Jeu nrg_pc_204. Méthodologie (métadonnées mises à jour le 01/02/2024) : prix collectés auprès des fournisseurs, moyenne nationale pondérée par leurs parts de marché. La date de publication est celle de la dernière mise à jour du jeu, relevée à chaque import."
   }
 ]

@@ -47,7 +47,7 @@ function tracer(contours) {
   return { chemins, hauteur: Math.round((ymax - ymin) * k) };
 }
 
-export function rendreCarte({ carte, contours, ech, citation, dateSource }) {
+export function rendreCarte({ carte, contours, ech, citation }) {
   const { chemins, hauteur } = tracer(contours);
   const defs = `<svg class="carte-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>
 ${[...chemins].map(([code, d]) => `<path id="region-${ech(code)}" d="${d}" fill-rule="evenodd" vector-effect="non-scaling-stroke"/>`).join("\n")}
@@ -80,7 +80,7 @@ ${absentes ? `<p class="echelle-absence"><span class="pastille-hachures" aria-hi
 </table>`;
 
   return `<p>${ech(carte.titre)}, ${ech(carte.annee)}, en ${ech(carte.unite)}. ${ech(carte.perimetre ?? "")}</p>
-<p class="source">Source : ${citation(carte.source_id)}${dateSource ? `, données publiées le ${ech(dateSource)}` : ""}.</p>
+<p class="source">Source : ${citation(carte.source_id)}.</p>
 ${carte.statut_donnees ? `<p class="note">${ech(carte.statut_donnees)}</p>` : ""}
 ${defs}
 <p class="consigne">Chaque carte a sa propre échelle, de 0 au maximum de sa filière : une même teinte ne représente pas la même quantité d'une carte à l'autre. Pour comparer les filières entre elles, lire le tableau.</p>

@@ -2,50 +2,131 @@
   {
     "id": "energie-prix-electricite-menages",
     "nom": "Prix de l'électricité pour les ménages",
-    "definition_retenue": "À RENSEIGNER — plusieurs définitions officielles coexistent (tarif réglementé, prix moyen TTC au kWh). Nommer celle retenue et s'y tenir.",
-    "unite": null,
-    "valeur": null,
-    "periode": null,
-    "source_id": null,
+    "definition_retenue": "Prix moyen payé par les ménages qui consomment entre 2 500 et 4 999 kWh par an (tranche DC d'Eurostat), toutes taxes et prélèvements compris. Moyenne semestrielle, pondérée par les parts de marché des fournisseurs interrogés, selon la méthodologie d'Eurostat. Autre définition officielle : le tarif réglementé de vente, arrêté par les ministres sur proposition de la Commission de régulation de l'énergie, qui est une grille de tarifs et non un prix moyen.",
+    "unite": "€/kWh",
+    "valeur": 0.2561,
+    "periode": "2e semestre 2025",
+    "decimales": 4,
+    "serie": {
+      "code": "nrg_pc_204",
+      "libelle": "Prix de l'électricité pour client résidentiel - données semestrielles (à partir de 2007)",
+      "perimetre": "France",
+      "type_donnees": "Consommation de 2 500 kWh à 4 999 kWh - tranche DC ; Toutes taxes et prélèvements compris"
+    },
+    "source_id": "eurostat-nrg-pc-204",
+    "importe_le": "2026-09-25",
     "verifie": false
   },
   {
     "id": "energie-mix-electrique",
-    "nom": "Part des filières dans le mix électrique français",
-    "definition_retenue": "À RENSEIGNER",
-    "unite": null,
-    "valeur": null,
-    "periode": null,
-    "source_id": null,
+    "nom": "Production d'électricité par filière",
+    "definition_retenue": "Production nette d'électricité en France métropolitaine, Corse comprise, filière par filière, telle que la publie le bilan énergétique du SDES. L'hydraulique inclut les stations de pompage. Toutes les filières sont affichées, dans l'ordre du producteur, et aucune part n'est calculée. RTE publie pour le même territoire un total un peu différent, selon sa propre convention de comptage ; la production nucléaire y est identique.",
+    "unite": "TWh",
+    "valeur": 551.1107043219779,
+    "libelle_valeur": "Production nette d'électricité",
+    "periode": "2025 (données provisoires)",
+    "decimales": 1,
+    "serie": {
+      "code": "EL019TMR",
+      "libelle": "Production nette d'électricité",
+      "perimetre": "Métropole",
+      "type_donnees": "Réelles"
+    },
+    "decomposition": [
+      {
+        "code": "EL020TMR",
+        "libelle": "Production nette d'électricité nucléaire",
+        "valeur": 373.027176928
+      },
+      {
+        "code": "EL021TMR",
+        "libelle": "Production nette d'électricité hydraulique (y compris pompages)",
+        "valeur": 65.3025158876934
+      },
+      {
+        "code": "EL023TMR",
+        "libelle": "Production nette d'électricité géothermique",
+        "valeur": 0.0023419999999999986
+      },
+      {
+        "code": "EL024TMR",
+        "libelle": "Production nette d'électricité solaire photovoltaïque",
+        "valeur": 32.46088066911932
+      },
+      {
+        "code": "EL025TMR",
+        "libelle": "Production nette d'électricité issue des énergies marines",
+        "valeur": 0.469660638
+      },
+      {
+        "code": "EL026TMR",
+        "libelle": "Production nette d'électricité éolienne",
+        "valeur": 49.29472401602815
+      },
+      {
+        "code": "EL027TMR",
+        "libelle": "Production nette d'électricité des centrales thermiques classiques",
+        "valeur": 29.683639060137047
+      },
+      {
+        "code": "EL028TMR",
+        "libelle": "Production nette d'électricité par procédés chimiques",
+        "valeur": 0
+      },
+      {
+        "code": "EL029TMR",
+        "libelle": "Production nette d'électricité, autres sources",
+        "valeur": 0.869765123
+      }
+    ],
+    "source_id": "sdes-bilan-2025-provisoire",
+    "importe_le": "2026-09-25",
     "verifie": false
   },
   {
     "id": "energie-consommation-finale",
-    "nom": "Consommation finale d'énergie en France",
-    "definition_retenue": "À RENSEIGNER",
-    "unite": null,
-    "valeur": null,
-    "periode": null,
-    "source_id": null,
+    "nom": "Consommation finale d'énergie",
+    "definition_retenue": "Consommation finale à usage énergétique, toutes énergies confondues, corrigée des variations climatiques, en France (métropole et DROM), selon le bilan énergétique du SDES. C'est la grandeur que l'article L. 100-4 du code de l'énergie vise à réduire par rapport à 2012 ; l'indicateur national de suivi publié par l'INSEE l'exprime en données corrigées du climat. Elle exclut les usages non énergétiques, comme les matières premières de la pétrochimie. Le même producteur publie d'autres définitions : données réelles, tous usages confondus, ou au sens de la directive européenne sur l'efficacité énergétique.",
+    "unite": "TWh",
+    "valeur": 1532.5663740497241,
+    "periode": "2025 (données provisoires)",
+    "decimales": 0,
+    "serie": {
+      "code": "SY020TFC",
+      "libelle": "Consommation finale à usage énergétique, toutes énergies confondues",
+      "perimetre": "France",
+      "type_donnees": "CVC"
+    },
+    "source_id": "sdes-bilan-2025-provisoire",
+    "importe_le": "2026-09-25",
     "verifie": false
   },
   {
-    "id": "energie-dependance",
-    "nom": "Dépendance énergétique de la France",
-    "definition_retenue": "À RENSEIGNER",
-    "unite": null,
-    "valeur": null,
-    "periode": null,
-    "source_id": null,
+    "id": "energie-independance",
+    "nom": "Taux d'indépendance énergétique",
+    "definition_retenue": "Rapport entre la production d'énergie primaire sur le territoire et la demande intérieure d'énergie, en France (métropole et DROM), en données réelles, selon le bilan énergétique du SDES. Par convention statistique internationale, l'énergie nucléaire est comptée comme produite sur le territoire : l'uranium importé ne compte pas comme une importation. Eurostat publie un taux de dépendance fondé sur d'autres agrégats ; REPÈRE ne déduit jamais l'un de l'autre.",
+    "unite": "%",
+    "valeur": 62.67428270914306,
+    "periode": "2025 (données provisoires)",
+    "decimales": 1,
+    "serie": {
+      "code": "SY027%FR",
+      "libelle": "Taux d'indépendance énergétique",
+      "perimetre": "France",
+      "type_donnees": "Réelles"
+    },
+    "source_id": "sdes-bilan-2025-provisoire",
+    "importe_le": "2026-09-25",
     "verifie": false
   },
   {
     "id": "energie-precarite",
-    "nom": "Ménages en difficulté pour payer leurs factures d'énergie",
-    "definition_retenue": "À RENSEIGNER",
+    "nom": "Taux de précarité énergétique",
+    "definition_retenue": "Part des ménages de France métropolitaine, hors ménages étudiants, qui appartiennent aux 30 % les plus modestes et dont les dépenses d'énergie dans le logement dépassent 8 % du revenu (taux d'effort énergétique), sans prise en compte des chèques énergie : la convention de référence de l'Observatoire national de la précarité énergétique. Estimation par un modèle de microsimulation (Prometheus, ministère de la Transition écologique). Le même producteur publie d'autres variantes, selon les aides prises en compte et la correction de la météo.",
     "unite": null,
     "valeur": null,
     "periode": null,
+    "decimales": 1,
     "source_id": null,
     "verifie": false
   }

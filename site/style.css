@@ -47,6 +47,12 @@ a{color:var(--accent)}
 .indicateur.vide{opacity:.72}
 .valeur{font-size:1.6rem;margin:4px 0 10px;font-variant-numeric:tabular-nums}
 .unite{font-size:.9rem;color:var(--doux)}
+.libelle-valeur{margin:-8px 0 10px;font-size:.85rem;color:var(--doux)}
+.decomposition{margin:0 0 12px;font-size:.85rem}
+.decomposition th{font-weight:normal}
+.decomposition th,.decomposition td{padding:5px 10px 5px 0}
+.decomposition td{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+code{font-size:.85em}
 dl{margin:0;font-size:.85rem;display:grid;grid-template-columns:auto 1fr;gap:4px 12px}
 dt{color:var(--doux)}
 dd{margin:0}
@@ -87,6 +93,8 @@ footer{border-top:1px solid var(--trait);padding-top:16px;padding-bottom:40px;
   .petite-carte figcaption{min-height:2.6em}
   .tableau-carte td{text-align:left}
   .tableau-carte td::before{content:attr(data-serie) " : ";color:var(--doux)}
+  .decomposition tr{display:flex;justify-content:space-between;gap:12px;padding:6px 0}
+  .decomposition td{text-align:right}
   dl{grid-template-columns:1fr;gap:2px}
   dt{margin-top:6px}
   table,caption,thead,tbody,tr,th,td{display:block}

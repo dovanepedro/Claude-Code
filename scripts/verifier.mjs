@@ -108,6 +108,16 @@ for (const theme of themes) {
       if (!ind.definition_retenue || /À RENSEIGNER/i.test(ind.definition_retenue))
         err(`${oui} : valeur renseignée sans définition retenue. Plusieurs définitions officielles coexistent souvent.`);
     }
+    // Une répartition s'affiche sous le total que publie le producteur : REPÈRE n'additionne jamais.
+    if (ind.decomposition !== undefined) {
+      if (!Array.isArray(ind.decomposition) || !ind.decomposition.length) err(`${oui} : décomposition vide.`);
+      else for (const [k, part] of ind.decomposition.entries()) {
+        if (!part.libelle) err(`${oui} / part[${k}] : libellé manquant.`);
+        if (part.valeur !== null && typeof part.valeur !== "number")
+          err(`${oui} / part[${k}] : ni un nombre ni une absence déclarée (null).`);
+      }
+      if (!renseigne) err(`${oui} : décomposition sans total publié par le producteur.`);
+    }
     if (ind.verifie === true) {
       const s = parId.get(ind.source_id);
       if (!s) err(`${oui} : marqué vérifié sans source valide.`);

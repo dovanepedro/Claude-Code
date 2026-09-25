@@ -24,8 +24,16 @@ function citation(id) {
   const s = parId.get(id);
   if (!s) return `<span class="manque">source à renseigner</span>`;
   const secondaire = s.type === "secondaire" ? ` <span class="drapeau">source secondaire — à reconfirmer</span>` : "";
-  return `<a class="source" href="${ech(s.url)}" rel="noopener">${ech(s.producteur)}</a>, consultée le ${ech(s.date_consultation)}${secondaire}`;
+  const publiee = s.date_publication ? `, publiée le ${ech(s.date_publication)}` : "";
+  return `<a class="source" href="${ech(s.url)}" rel="noopener">${ech(s.producteur)}</a>${publiee}, consultée le ${ech(s.date_consultation)}${secondaire}`;
 }
+
+// Format français, avec le nombre de décimales choisi pour l'indicateur. Arrondir pour afficher
+// n'est pas calculer : la valeur complète reste dans le fichier de données.
+const chiffre = (v, decimales) => new Intl.NumberFormat("fr-FR", decimales === undefined
+  ? { maximumFractionDigits: 2 } : { minimumFractionDigits: decimales, maximumFractionDigits: decimales }).format(v);
+
+const TYPES_DONNEES = { CVC: "données corrigées des variations climatiques", "Réelles": "données réelles" };
 
 function page({ titre, corps, actuel }) {
   const nav = [["index", "Accueil"], ["methode", "Méthode"], ["corrections", "Corrections"]]
@@ -85,13 +93,22 @@ function pageTheme(theme) {
 
   const blocIndic = indicateurs.map((i) => {
     const vide = i.valeur === null || i.valeur === undefined;
+    const serie = i.serie
+      ? `<dt>Série</dt><dd><code>${ech(i.serie.code)}</code> — ${ech(i.serie.libelle)} (${ech([i.serie.perimetre, TYPES_DONNEES[i.serie.type_donnees] ?? i.serie.type_donnees].filter(Boolean).join(", "))})</dd>` : "";
+    // Une répartition s'affiche sous le total publié, filière par filière, sans part calculée.
+    const repartition = i.decomposition?.length ? `<table class="decomposition">
+<caption>Détail publié par le producteur, dans son ordre, en ${ech(i.unite)}</caption>
+<tbody>${i.decomposition.map((p) => `<tr><th scope="row">${ech(p.libelle)}</th><td>${p.valeur === null ? "<span class='manque'>non publiée</span>" : ech(chiffre(p.valeur, i.decimales))}</td></tr>`).join("")}</tbody>
+</table>` : "";
     return `<article class="indicateur${vide ? " vide" : ""}">
 <h3>${ech(i.nom)}</h3>
-<p class="valeur">${vide ? "<span class='manque'>à renseigner</span>" : `${ech(i.valeur)} <span class="unite">${ech(i.unite)}</span>`}</p>
+<p class="valeur">${vide ? "<span class='manque'>à renseigner</span>" : `${ech(chiffre(i.valeur, i.decimales))} <span class="unite">${ech(i.unite)}</span>`}</p>
+${i.libelle_valeur && !vide ? `<p class="libelle-valeur">${ech(i.libelle_valeur)}</p>` : ""}
+${repartition}
 <dl>
 <dt>Période</dt><dd>${vide ? "—" : ech(i.periode)}</dd>
 <dt>Définition retenue</dt><dd>${ech(i.definition_retenue)}</dd>
-<dt>Source</dt><dd>${vide ? "—" : citation(i.source_id)}</dd>
+${serie}<dt>Source</dt><dd>${vide ? "—" : citation(i.source_id)}</dd>
 <dt>Vérification</dt><dd>${i.verifie ? "vérifié à la source primaire" : "<span class='drapeau'>non vérifié</span>"}</dd>
 </dl></article>`;
   }).join("");
@@ -111,7 +128,7 @@ function pageTheme(theme) {
   const contours = carte?.geometrie && carte.valeurs?.length
     ? JSON.parse(readFileSync(join(D, "geometries", `${carte.geometrie}.json`), "utf8")).regions : null;
   const blocCarte = contours
-    ? rendreCarte({ carte, contours, ech, citation, dateSource: parId.get(carte.source_id)?.date_publication })
+    ? rendreCarte({ carte, contours, ech, citation })
     : `<p class="manque">${ech(carte?.titre ?? "Carte")} — géométrie non encore récupérée. ${ech(carte?.note ?? "")}</p>`;
 
   return page({
