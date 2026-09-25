@@ -1,15 +1,38 @@
-# Arbitrages en attente de l'auteur
+# Arbitrages éditoriaux — journal des décisions
 
 > Le cadrage réserve les décisions éditoriales à l'auteur : les déléguer reviendrait à publier
-> un produit sans auteur. Ce fichier rassemble celles qui bloquent le thème énergie, avec les
-> options **lues à la source le 24/09/2026**, leur producteur, et une recommandation motivée.
+> un produit sans auteur. Ce fichier garde, pour chaque décision, les options lues à la source,
+> la recommandation qui les accompagnait et ce que l'auteur a tranché. Une décision nouvelle
+> s'ajoute ici avant d'être appliquée.
 >
 > Les chiffres cités servent à mesurer l'écart entre définitions, **pas à choisir** : une
-> définition se choisit sur ses critères, jamais sur le chiffre qu'elle donne. Aucun ne doit
-> être recopié à la main dans `donnees/` : chaque indicateur retenu passera par un script
-> d'import, comme la carte.
+> définition se choisit sur ses critères, jamais sur le chiffre qu'elle donne. Aucun n'est
+> recopié à la main dans `donnees/` : chaque indicateur passe par un script d'import.
 
-## Trois règles à adopter d'abord
+## Décisions du 25/09/2026
+
+L'auteur a validé les recommandations 0 à 6 ci-dessous. Les trois règles, dont elles découlent,
+sont adoptées avec elles.
+
+| # | Décision | Appliquée |
+|---|---|---|
+| 0 | Carte : garder 2025, étiquetée « consolidée » | Statut affiché sous la carte ; réimport au second semestre 2026, révisions au journal des corrections. |
+| 1 | Prix : enquête Eurostat, tranche DC, toutes taxes | `importer-eurostat.mjs`. La méthodologie d'Eurostat, lue le 25/09, décrit une moyenne pondérée par les parts de marché des fournisseurs. |
+| 2 | Mix : répartition complète par filière | `importer-sdes.mjs`. **Ajustement** : RTE ne publie ses chiffres qu'en PDF et en images ; la répartition vient donc des séries du bilan du SDES, même territoire (métropole, Corse comprise), autre convention de comptage (total 551,1 TWh contre 547,5 chez RTE ; nucléaire identique). |
+| 3 | Consommation finale corrigée du climat, si la loi confirme | Condition levée sans Légifrance : la fiche de l'INSEE sur l'indicateur 7.i2 des objectifs de développement durable (janvier 2026) cite l'article L. 100-4 mot pour mot et suit l'objectif en données corrigées des variations climatiques. `importer-sdes.mjs`. |
+| 4 | Taux d'indépendance du SDES, convention nucléaire affichée | `importer-sdes.mjs`, indicateur renommé. |
+| 5 | Précarité : convention de référence (10,1 % en 2023) | **En attente d'une question de méthode** (voir plus bas) : ce chiffre n'est publié que dans un PDF. |
+| 6 | Titre de page officiel, nom court en navigation | Le titre d'une page de thème reprend l'intitulé confirmé de la nomenclature. |
+
+### Question ouverte : un chiffre publié seulement en PDF
+
+La source primaire du taux de précarité est une publication du ministère de la Transition
+écologique (CGDD, *La précarité énergétique en 2023*, juin 2025), en PDF. Aucun fichier de
+données associé n'a été trouvé. Le cadrage veut des chiffres qui arrivent « par un tuyau de
+données, jamais rédigés » : un relevé à la main enfreindrait la règle, et l'assouplir revient à
+l'auteur.
+
+## Les trois règles
 
 Elles tranchent d'avance la moitié des cas ci-dessous, et remplacent un jugement par une règle
 citable, dans l'esprit du cadrage.

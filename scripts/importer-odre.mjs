@@ -3,8 +3,8 @@
 //
 // Les valeurs sont recopiées telles que le producteur les publie : aucun calcul,
 // aucune conversion d'unité, et une valeur absente (null) reste absente — jamais 0.
-// Le script ne touche qu'aux champs de données de carte.json ; titre, périmètre,
-// note et points à vérifier sont rédigés à la main et conservés d'un import à l'autre.
+// Le script ne touche qu'aux champs de données de carte.json ; titre, périmètre, statut
+// des données, note et points à vérifier sont rédigés à la main et conservés d'un import à l'autre.
 //
 // Usage : npm run importer:odre   (réseau requis ; la construction du site, elle, n'en a pas besoin)
 
@@ -84,6 +84,7 @@ const carte = {
   annee,
   unite,
   perimetre: ancienne.perimetre ?? null,
+  statut_donnees: ancienne.statut_donnees ?? null,
   geometrie: "regions",
   series: SERIES.map((s) => ({ champ: s, libelle: champs.get(s) })),
   valeurs,

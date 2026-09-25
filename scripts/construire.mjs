@@ -59,8 +59,18 @@ function rattachement(theme) {
   return `<p class="rattachement">Division ${ech(div.code)} « ${ech(div.libelle)} »${sous} de la ${ech(nomenclature.referentiel)}. REPÈRE ne choisit pas ses thèmes : il reprend ce découpage.</p>`;
 }
 
+// Le titre d'une page de thème est l'intitulé officiel de la nomenclature, dès qu'il est confirmé ;
+// le nom court du thème ne sert qu'à la navigation.
+function titreOfficiel(theme) {
+  const n = theme.nomenclature ?? {};
+  if (n.sous_classe) return n.libelle_confirme ? n.libelle_sous_classe : null;
+  const div = divisions.get(n.division);
+  return div?.libelle_confirme ? div.libelle : null;
+}
+
 function pageTheme(theme) {
   const dossier = join(D, "themes", theme.id);
+  const titre = titreOfficiel(theme) ?? theme.nom;
   const indicateurs = lire(join(dossier, "indicateurs.json"));
   const pouvoirs = lire(join(dossier, "pouvoirs.json"));
   // Ordre alphabétique imposé : jamais un ordre lié à la notoriété ou aux sondages.
@@ -105,9 +115,9 @@ function pageTheme(theme) {
     : `<p class="manque">${ech(carte?.titre ?? "Carte")} — géométrie non encore récupérée. ${ech(carte?.note ?? "")}</p>`;
 
   return page({
-    titre: theme.nom, actuel: "",
+    titre, actuel: "",
     corps: `${banniere}
-<h1>${ech(theme.nom)}</h1>
+<h1>${ech(titre)}</h1>
 ${rattachement(theme)}
 <section><h2>L'état des lieux</h2>${blocIndic}</section>
 <section><h2>Sur le territoire</h2>${blocCarte}</section>

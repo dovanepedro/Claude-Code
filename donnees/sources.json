@@ -15,7 +15,7 @@
     "producteur": "NaTran, RTE, Teréga (plateforme ODRÉ)",
     "url": "https://odre.opendatasoft.com/explore/dataset/prod-region-annuelle-filiere/",
     "date_publication": "2026-02-17",
-    "date_consultation": "2026-09-24",
+    "date_consultation": "2026-09-25",
     "type": "primaire",
     "licence": "Licence Ouverte v2.0 (Etalab) — réutilisation libre, mention du producteur et de la date de mise à jour obligatoire.",
     "note": "La fiche se contredit sur trois points, relevés tels quels : le titre annonce 2008 à 2025 mais le champ « profondeur d'historique » indique 2008 - 2024 ; la description parle de TWh alors que chaque champ est libellé en GWh ; le champ « modified » (7 mai 2025) est antérieur aux données 2025 que le jeu contient. date_publication reprend donc le champ « data_processed » (17 février 2026). La description signale aussi un recalcul de l'autoconsommation photovoltaïque qui a relevé la production solaire de 2022 à 2024."

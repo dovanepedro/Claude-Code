@@ -81,6 +81,7 @@ ${absentes ? `<p class="echelle-absence"><span class="pastille-hachures" aria-hi
 
   return `<p>${ech(carte.titre)}, ${ech(carte.annee)}, en ${ech(carte.unite)}. ${ech(carte.perimetre ?? "")}</p>
 <p class="source">Source : ${citation(carte.source_id)}${dateSource ? `, données publiées le ${ech(dateSource)}` : ""}.</p>
+${carte.statut_donnees ? `<p class="note">${ech(carte.statut_donnees)}</p>` : ""}
 ${defs}
 <p class="consigne">Chaque carte a sa propre échelle, de 0 au maximum de sa filière : une même teinte ne représente pas la même quantité d'une carte à l'autre. Pour comparer les filières entre elles, lire le tableau.</p>
 <div class="cartes">${figures}</div>

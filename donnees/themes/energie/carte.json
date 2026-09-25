@@ -5,6 +5,7 @@
   "annee": "2025",
   "unite": "GWh",
   "perimetre": "Les 13 régions de France métropolitaine, Corse comprise. Le jeu de données ne contient aucune région d'outre-mer : elles ne figurent donc pas sur cette carte, faute de chiffre publié par ce producteur.",
+  "statut_donnees": "Données 2025 consolidées, pas encore définitives : RTE ne rend une année définitive qu'au second semestre de l'année suivante (fiche du jeu éCO2mix national sur ODRÉ). Elles seront réimportées à leur livraison, et toute révision figurera dans le journal des corrections.",
   "geometrie": "regions",
   "series": [
     {
@@ -164,7 +165,7 @@
       "production_bioenergies": 3
     }
   ],
-  "importe_le": "2026-09-24",
+  "importe_le": "2026-09-25",
   "note": "Une valeur vide est une valeur que le producteur ne publie pas : elle est affichée comme telle et jamais remplacée par zéro. Les libellés des filières et leur ordre sont ceux du producteur.",
-  "a_verifier": "Statut de l'année 2025 : la fiche du jeu parle de production « définitive », mais la fiche éCO2mix du même producteur (jeu eco2mix-national-cons-def, lue le 24/09/2026) précise qu'une année ne devient définitive qu'au second semestre de l'année suivante, et ne déclare définitives que les données de janvier 2012 à décembre 2024. Les valeurs 2025, chargées le 17/02/2026, sont donc vraisemblablement consolidées et non définitives. Avant publication : soit afficher 2024, soit réimporter après la livraison des données définitives 2025 et signaler toute révision dans le journal des corrections."
+  "a_verifier": null
 }
