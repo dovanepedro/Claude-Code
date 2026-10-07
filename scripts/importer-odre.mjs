@@ -8,11 +8,10 @@
 //
 // Usage : npm run importer:odre   (réseau requis ; la construction du site, elle, n'en a pas besoin)
 
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
+import { D, aujourdhui, echec, telecharger, exigerSource, majConsultation } from "./importer-commun.mjs";
 
-const RACINE = new URL("..", import.meta.url).pathname;
-const D = join(RACINE, "donnees");
 const JEU = "prod-region-annuelle-filiere";
 const SOURCE_ID = "odre-production-regionale-filiere";
 const API = `https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/${JEU}`;
@@ -24,19 +23,14 @@ const SERIES = [
   "production_eolienne", "production_solaire", "production_bioenergies",
 ];
 
-function echec(message) {
-  console.error(`\n✗ Import interrompu : ${message}\n  Rien n'a été écrit.\n`);
-  process.exit(1);
-}
+// Rien ne se télécharge tant qu'il manque de quoi écrire le résultat.
+exigerSource(SOURCE_ID);
+const cheminCarte = join(D, "themes", "energie", "carte.json");
+if (!existsSync(cheminCarte)) echec("donnees/themes/energie/carte.json est absent : il porte le titre, la note et le statut rédigés à la main, à recréer d'abord.");
+const ancienne = JSON.parse(readFileSync(cheminCarte, "utf8"));
 
-async function lireJson(url) {
-  const r = await fetch(url);
-  if (!r.ok) echec(`${url} a répondu ${r.status}.`);
-  return r.json();
-}
-
-const fiche = await lireJson(API);
-const enregistrements = await lireJson(`${API}/exports/json`);
+const fiche = await telecharger(API, "json");
+const enregistrements = await telecharger(`${API}/exports/json`, "json");
 
 // Libellés et unité : repris des champs de la fiche, pas rédigés.
 const champs = new Map(fiche.fields.map((f) => [f.name, f.label]));
@@ -73,10 +67,7 @@ for (const e of lignes) {
   regions[e.code_insee_region] = { nom: e.region, type: forme.type, coordinates: forme.coordinates };
 }
 
-const aujourdhui = new Date().toISOString().slice(0, 10);
-const cheminCarte = join(D, "themes", "energie", "carte.json");
-const ancienne = JSON.parse(readFileSync(cheminCarte, "utf8"));
-
+const date = aujourdhui();
 const carte = {
   titre: ancienne.titre,
   source_id: SOURCE_ID,
@@ -88,7 +79,7 @@ const carte = {
   geometrie: "regions",
   series: SERIES.map((s) => ({ champ: s, libelle: champs.get(s) })),
   valeurs,
-  importe_le: aujourdhui,
+  importe_le: date,
   note: ancienne.note ?? null,
   a_verifier: ancienne.a_verifier ?? null,
 };
@@ -109,16 +100,7 @@ mkdirSync(join(D, "geometries"), { recursive: true });
 writeFileSync(join(D, "geometries", "regions.json"), geometrie);
 writeFileSync(cheminCarte, JSON.stringify(carte, null, 2) + "\n");
 
-// La date de consultation de la source est celle de l'import, pas une date rédigée.
-const cheminSources = join(D, "sources.json");
-const sources = JSON.parse(readFileSync(cheminSources, "utf8"));
-const source = sources.find((s) => s.id === SOURCE_ID);
-if (source) {
-  source.date_consultation = aujourdhui;
-  writeFileSync(cheminSources, JSON.stringify(sources, null, 2) + "\n");
-} else {
-  console.warn(`  avertissement — la source « ${SOURCE_ID} » n'existe pas encore dans sources.json : la créer à la main.`);
-}
+majConsultation(SOURCE_ID, date);
 
 console.log(`✓ ${valeurs.length} régions importées pour ${annee} (${unite}), ${SERIES.length} séries, contours inclus.`);
 console.log(`  Fiche ODRÉ : données traitées le ${fiche.metas?.default?.data_processed?.slice(0, 10) ?? "?"}.`);

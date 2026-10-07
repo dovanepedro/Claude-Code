@@ -3,9 +3,10 @@
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, copyFileSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { rendreCarte } from "./carte.mjs";
 
-const RACINE = new URL("..", import.meta.url).pathname;
+const RACINE = fileURLToPath(new URL("..", import.meta.url));
 const D = join(RACINE, "donnees");
 const DIST = join(RACINE, "dist");
 
@@ -192,3 +193,4 @@ writeFileSync(join(DIST, "methode.html"), page({
 
 copyFileSync(join(RACINE, "site", "style.css"), join(DIST, "style.css"));
 console.log(`✓ Site construit — ${ouverts.length + 3} page(s), ${themes.length - ouverts.length} thème(s) annoncé(s).`);
+console.log(`  À ouvrir dans un navigateur, sans serveur : ${pathToFileURL(join(DIST, "index.html")).href}`);

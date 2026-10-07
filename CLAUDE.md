@@ -34,14 +34,8 @@ npm run importer:eurostat  # prix de l'électricité pour les ménages (Eurostat
 
 Aucune dépendance, aucun `npm install`. Node 18+ ; scripts `.mjs` natifs.
 
-Pour voir le site, ouvrir `dist/index.html` dans un navigateur : liens relatifs, aucun
-JavaScript, aucun serveur nécessaire. Éviter `npm run servir`, qui télécharge un serveur par
-`npx` et, à cause d'un `;`, sert `dist/` même quand le vérificateur a échoué.
-
-**Limite connue :** depuis un dossier dont le chemin contient une espace ou un accent (« Mes
-documents », « Repère »), tous les scripts échouent sur « Fichier manquant ». Ils calculent la
-racine du dépôt par `new URL("..", import.meta.url).pathname`, qui encode ces caractères ; la
-correction est `fileURLToPath` (module `node:url`), dans les quatre scripts qui le font.
+Pour voir le site, ouvrir `dist/index.html` dans un navigateur ; `npm run construire` en affiche
+l'adresse. Liens relatifs, aucun JavaScript : aucun serveur n'est nécessaire.
 
 **Il n'y a pas de suite de tests, et c'est volontaire :** `verifier.mjs` joue ce rôle. Pour
 l'exercer, casser délibérément une donnée (retirer un `source_id` d'un indicateur renseigné,
@@ -138,6 +132,8 @@ la page de méthode plutôt que dissimulées.
 - **Une absence s'affiche, elle ne se comble pas.** Un champ vide produit « à renseigner » ou
   « Aucune position renseignée à ce jour » — ne jamais déduire une valeur manquante.
 - Tout texte inséré dans une page passe par `ech()` ; pas de bibliothèque de gabarits.
+- Un script trouve la racine du dépôt par `fileURLToPath(new URL("..", import.meta.url))`, jamais
+  par `URL.pathname`, qui encode espaces et accents et casse tout depuis un dossier « Repère ».
 - Accessibilité et mobile font partie du rendu, pas d'une passe ultérieure : lien d'évitement,
   `aria-current`, tableaux sémantiques qui s'effondrent sous 560 px, thème sombre via
   `prefers-color-scheme` protégé par `:root:not([data-theme="light"])`.
@@ -150,7 +146,9 @@ la page de méthode plutôt que dissimulées.
   (libellé, unité, périmètre) et s'arrête au moindre changement, ne possède que les champs de
   données (nom, définition retenue, `decimales`, `verifie`, notes restent rédigés à la main), et
   un réimport le même jour doit être identique au bit près. La source se crée à la main dans
-  `sources.json` avant le premier import ; l'import n'y met ensuite à jour que les dates.
+  `sources.json` avant le premier import ; l'import n'y met ensuite à jour que les dates. Il
+  contrôle sa source et ses indicateurs avant tout téléchargement (`exigerSource`,
+  `exigerIndicateurs`) : s'il échoue, aucun fichier n'a été touché.
 - Les trois règles adoptées par l'auteur le 25/09/2026 (détail dans ARBITRAGES.md) : REPÈRE ne
   dérive aucun chiffre (ni somme, ni différence, ni ratio) ; quand un producteur publie plusieurs
   variantes, on reprend celle qu'il désigne comme sa référence ; une unité incomplète vaut une

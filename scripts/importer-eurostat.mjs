@@ -6,9 +6,11 @@
 //
 // Usage : npm run importer:eurostat   (réseau requis)
 
-import { aujourdhui, echec, telecharger, majIndicateurs, majConsultation } from "./importer-commun.mjs";
+import { aujourdhui, echec, telecharger, exigerSource, exigerIndicateurs, majIndicateurs, majConsultation } from "./importer-commun.mjs";
 
 const SOURCE_ID = "eurostat-nrg-pc-204";
+const THEME = "energie";
+const CIBLE = "energie-prix-electricite-menages";
 const JEU = "nrg_pc_204";
 const FILTRE = { geo: "FR", nrg_cons: "KWH2500-4999", tax: "I_TAX", currency: "EUR", unit: "KWH" };
 const LIBELLES = {
@@ -18,6 +20,10 @@ const LIBELLES = {
   currency: "Euro",
   unit: "Kilowattheure",
 };
+
+// Rien ne se télécharge tant qu'il manque de quoi écrire le résultat.
+exigerSource(SOURCE_ID);
+exigerIndicateurs(THEME, [CIBLE]);
 
 const url = `https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/${JEU}?`
   + new URLSearchParams({ ...FILTRE, lang: "fr" });
@@ -43,8 +49,8 @@ if (!m) echec(`période « ${derniere} » inattendue (semestre attendu).`);
 const periode = `${m[2] === "1" ? "1er" : "2e"} semestre ${m[1]}`;
 
 const date = aujourdhui();
-majIndicateurs("energie", {
-  "energie-prix-electricite-menages": {
+majIndicateurs(THEME, {
+  [CIBLE]: {
     unite: "€/kWh",
     valeur,
     periode: drapeau ? `${periode} (drapeau Eurostat « ${drapeau} »)` : periode,

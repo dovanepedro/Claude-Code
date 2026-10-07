@@ -9,12 +9,14 @@
 // Usage : npm run importer:sdes   (réseau requis)
 
 import { lireClasseur } from "./lire-xlsx.mjs";
-import { aujourdhui, echec, telecharger, majIndicateurs, majConsultation } from "./importer-commun.mjs";
+import { aujourdhui, echec, telecharger, exigerSource, exigerIndicateurs, majIndicateurs, majConsultation } from "./importer-commun.mjs";
 
 // Édition lue. À remplacer à la parution du bilan définitif de 2025, puis de chaque bilan suivant.
 const SOURCE_ID = "sdes-bilan-2025-provisoire";
 const FICHIER = "https://www.statistiques.developpement-durable.gouv.fr/media/9283/download?inline";
 const STATUT = "données provisoires";
+const THEME = "energie";
+const CIBLES = { consommation: "energie-consommation-finale", independance: "energie-independance", production: "energie-mix-electrique" };
 
 // Chaque série est décrite par ce qu'en dit le producteur : [libellé, unité, périmètre, type de données].
 const S = (libelle, unite, perimetre, type) => ({ libelle, unite, perimetre, type });
@@ -37,6 +39,10 @@ const FILIERES = {
   EL029TMR: "Production nette d'électricité, autres sources",
 };
 for (const [code, libelle] of Object.entries(FILIERES)) SERIES[code] = S(libelle, "TWh", "Métropole", "Réelles");
+
+// Rien ne se télécharge tant qu'il manque de quoi écrire le résultat.
+exigerSource(SOURCE_ID);
+exigerIndicateurs(THEME, Object.values(CIBLES));
 
 const [feuille] = lireClasseur(await telecharger(FICHIER));
 const [entete, ...lignes] = feuille.lignes;
@@ -71,10 +77,10 @@ const serie = ({ code, libelle, perimetre, type }) => ({ code, libelle, perimetr
 const date = aujourdhui();
 const commun = (s) => ({ unite: s.unite, valeur: s.valeur, periode: `${annee} (${STATUT})`, serie: serie(s), source_id: SOURCE_ID, importe_le: date });
 
-majIndicateurs("energie", {
-  "energie-consommation-finale": commun(lues.SY020TFC),
-  "energie-independance": commun(lues["SY027%FR"]),
-  "energie-mix-electrique": {
+majIndicateurs(THEME, {
+  [CIBLES.consommation]: commun(lues.SY020TFC),
+  [CIBLES.independance]: commun(lues["SY027%FR"]),
+  [CIBLES.production]: {
     ...commun(lues.EL019TMR),
     libelle_valeur: lues.EL019TMR.libelle,
     decomposition: Object.keys(FILIERES).map((code) => ({ code, libelle: lues[code].libelle, valeur: lues[code].valeur })),
