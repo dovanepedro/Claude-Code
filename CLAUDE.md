@@ -5,6 +5,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 *(Le dépôt est entièrement en français : données, interface, commentaires de code et messages
 de commit. Ce fichier l'est aussi, pour rester lisible par son auteur.)*
 
+Le dépôt porte deux choses sans lien entre elles : REPÈRE, l'objet de presque tout ce fichier,
+et des skills Claude Code dans `.claude/skills/`, décrits dans la dernière section.
+
 ## Le produit
 
 REPÈRE expose, thème par thème, l'état chiffré de la France et **qui a le pouvoir de décider**
@@ -31,11 +34,22 @@ npm run importer:eurostat  # prix de l'électricité pour les ménages (Eurostat
 
 Aucune dépendance, aucun `npm install`. Node 18+ ; scripts `.mjs` natifs.
 
+Pour voir le site, ouvrir `dist/index.html` dans un navigateur : liens relatifs, aucun
+JavaScript, aucun serveur nécessaire. Éviter `npm run servir`, qui télécharge un serveur par
+`npx` et, à cause d'un `;`, sert `dist/` même quand le vérificateur a échoué.
+
+**Limite connue :** depuis un dossier dont le chemin contient une espace ou un accent (« Mes
+documents », « Repère »), tous les scripts échouent sur « Fichier manquant ». Ils calculent la
+racine du dépôt par `new URL("..", import.meta.url).pathname`, qui encode ces caractères ; la
+correction est `fileURLToPath` (module `node:url`), dans les quatre scripts qui le font.
+
 **Il n'y a pas de suite de tests, et c'est volontaire :** `verifier.mjs` joue ce rôle. Pour
 l'exercer, casser délibérément une donnée (retirer un `source_id` d'un indicateur renseigné,
-ajouter une clé `score`, passer un thème à `publie`) et vérifier que la sortie est non nulle,
-puis annuler. Il n'existe pas d'option pour ne vérifier qu'un seul thème : le script parcourt
-tout, c'est rapide.
+ajouter une clé `score`, passer un thème à `publie`) et vérifier que la sortie est non nulle —
+de préférence dans une copie des dossiers `scripts/` et `donnees/`, pour ne jamais risquer le
+travail non commité. Toute nouvelle règle s'exerce ainsi, un cas par règle, avec un témoin
+intact qui doit passer. Il n'existe pas d'option pour ne vérifier qu'un seul thème : le script
+parcourt tout, c'est rapide.
 
 ## Architecture
 
@@ -44,13 +58,20 @@ avec sa source et sa date** — c'est la réponse toute prête le jour où un ch
 la raison pour laquelle une IA ne peut pas en inventer un : les valeurs sont importées dans des
 fichiers de données, jamais rédigées dans de la prose générée.
 
+Le flux : les imports, lancés à la main et seuls à avoir besoin du réseau, écrivent dans
+`donnees/` ; on committe ce qu'ils ont écrit ; `verifier.mjs` contrôle ; `construire.mjs` génère
+`dist/` hors ligne et ne télécharge jamais rien. Les pages sont du HTML statique sans JavaScript
+côté navigateur, carte comprise (SVG).
+
 ```
 donnees/
   nomenclature.json   les divisions CFAP/COFOG ; les thèmes ne sont pas choisis, ils en sont repris
   themes.json         liste des thèmes, statut, ordre, rattachement à la nomenclature
   sources.json        registre unique des sources ; tout source_id doit y exister
   corrections.json    journal public des corrections
-  themes/<id>/        indicateurs · pouvoirs · positions · precedents · evaluations · carte
+  themes/<id>/        indicateurs · pouvoirs · positions · carte, lus par les scripts ;
+                      precedents · evaluations, présents mais lus par aucun script (ni vérifiés,
+                      ni affichés) tant que leur rendu n'est pas écrit
   geometries/         contours partagés entre thèmes (regions.json, repris d'ODRÉ)
 scripts/
   verifier.mjs        les règles éditoriales du projet, traduites en code
@@ -128,7 +149,8 @@ la page de méthode plutôt que dissimulées.
   conversion, garde `null` pour une absence, contrôle ce que le producteur dit de chaque série
   (libellé, unité, périmètre) et s'arrête au moindre changement, ne possède que les champs de
   données (nom, définition retenue, `decimales`, `verifie`, notes restent rédigés à la main), et
-  un réimport le même jour doit être identique au bit près.
+  un réimport le même jour doit être identique au bit près. La source se crée à la main dans
+  `sources.json` avant le premier import ; l'import n'y met ensuite à jour que les dates.
 - Les trois règles adoptées par l'auteur le 25/09/2026 (détail dans ARBITRAGES.md) : REPÈRE ne
   dérive aucun chiffre (ni somme, ni différence, ni ratio) ; quand un producteur publie plusieurs
   variantes, on reprend celle qu'il désigne comme sa référence ; une unité incomplète vaut une
@@ -143,7 +165,7 @@ la page de méthode plutôt que dissimulées.
 ## État actuel
 
 Premier jalon : le thème **énergie** complet et en ligne, **échéance 22 octobre 2026**. Il est en
-`brouillon`. Au 25/09/2026 :
+`brouillon`. Au 25/09/2026, et sans changement dans le dépôt au 07/10/2026 :
 
 - **Carte : faite**, données 2025 consolidées affichées comme telles (décision 0).
 - **Indicateurs : quatre sur cinq importés** (prix, production par filière, consommation finale,
@@ -165,3 +187,19 @@ millésime 2025 en décembre 2026 (relire les intitulés de la nomenclature).
 
 Réseau depuis cet environnement : ouvert, sauf Légifrance (403), onpe.org et ademe.fr
 (anti-robots) et data.gouv.fr (coupures). L'API d'Eurostat, en maintenance le 24/09, répond.
+
+## Hors REPÈRE : les skills Claude Code
+
+`.claude/skills/` contient trois skills repris de [mattpocock/skills](https://github.com/mattpocock/skills)
+(licence MIT, `LICENSE-mattpocock-skills`) et copiés comme fichiers modifiables, non installés en
+plugin. `.claude/skills/README.md` fait référence pour ce qui est repris et comment le mettre à
+jour. Ils n'ont aucun lien avec le code de REPÈRE ; rien à construire ni à tester.
+
+- `teach` : apprentissage suivi sur plusieurs sessions, à lancer par `/teach` dans un dossier de
+  travail dédié, hors code. Les formats des fichiers qu'il tient sont dans les `*-FORMAT.md` voisins.
+- `grilling` : l'interrogatoire en rondes qui éprouve un plan avant d'agir. `grill-me` n'existe que
+  pour offrir la commande `/grill-me` : il renvoie à `grilling` en une ligne, et doit le rester.
+- Les en-têtes des `SKILL.md` (`name`, `description`, `disable-model-invocation`,
+  `argument-hint`) commandent la découverte et le déclenchement : les garder exacts.
+- Pour mettre à jour, recopier le dossier depuis `skills/productivity/` dans le dépôt d'origine
+  plutôt que de corriger à la main ; signaler dans le commit toute divergence voulue.
